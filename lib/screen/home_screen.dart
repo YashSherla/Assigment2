@@ -27,6 +27,20 @@ class _HomeScreenState extends State<HomeScreen> {
     "+1",
   ];
 
+  bool _isSearchFieldVisible = false;
+  TextEditingController searchController = TextEditingController();
+
+  void _toggleSearchField() {
+    setState(() {
+      _isSearchFieldVisible = !_isSearchFieldVisible;
+    });
+  }
+
+  void onSearchTextChanged(String text) {
+    // Handle search logic here
+    print("Search text: $text");
+  }
+
   @override
   Widget build(BuildContext context) {
     var notify = Row(
@@ -46,6 +60,31 @@ class _HomeScreenState extends State<HomeScreen> {
               this.value = value;
             });
           },
+        ),
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: _toggleSearchField,
+        ),
+        Visibility(
+          visible: _isSearchFieldVisible,
+          child: SizedBox(
+            height: 45,
+            child: CupertinoSearchTextField(
+              prefixIcon: Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
+              controller: searchController,
+              onChanged: onSearchTextChanged,
+              placeholder: 'Search Turfs',
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(17),
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );
